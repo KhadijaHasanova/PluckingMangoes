@@ -1,4 +1,3 @@
-
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -15,7 +14,9 @@ var tree;
 
 var ground;
 
-var line;
+var launcherObject;
+
+var launchForce = 100;
 
 function preload() {
 	boyImage = loadImage("images/boy.png");
@@ -28,11 +29,11 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world;
 
-	//create the boy
+	/*//create the boy
 	boy = createSprite(200,600);
 	boy.addImage(boyImage);
 	boy.scale = 0.1;
-
+*/
 	//create the mangoes
 	mango1 = new Mango(600,200);
 	mango2 = new Mango(1000,220);
@@ -52,20 +53,23 @@ function setup() {
 	ground = new Ground(600,650,1600,50);
 
 	//create the stone
-	stone = new Stone(110,520);
+	stone = new Stone(235,420);
 
 	//create the constraint
-	line = new Launcher(stone.body,{x:200,y:50});
+	launcherObject = new Launcher(stone.body,{x:235,y:420});
 
-	Engine.run(engine);
+	//Engine.run(engine);
   
 }
 
 
 function draw() {
-  rectMode(CENTER);
+	Engine.update(engine);
+  //rectMode(CENTER);
   //set the background color
   background("lightblue");
+
+  image(boyImage,200,340,200,300);
 
   //display the tree
   tree.display();
@@ -89,7 +93,7 @@ function draw() {
   stone.display();
 
   //display the line
-  line.display();
+  launcherObject.display();
   
   drawSprites();
  
@@ -100,7 +104,7 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-	line.fly();
+	launcherObject.fly();
 }
 
 function keyPressed() {
